@@ -2,12 +2,14 @@
 #define _qe_h_
 
 #include <vector>
+#include <cstring>
 
 #include "../rbf/rbfm.h"
 #include "../rm/rm.h"
 #include "../ix/ix.h"
 
 #define QE_EOF (-1)  // end of the index scan
+#define FAILURE -1
 
 using namespace std;
 
@@ -198,9 +200,13 @@ class Filter : public Iterator {
         );
         ~Filter(){};
 
-        RC getNextTuple(void *data) {return QE_EOF;};
+        RC getNextTuple(void *data);
         // For attribute in vector<Attribute>, name it as rel.attr
-        void getAttributes(vector<Attribute> &attrs) const{};
+        void getAttributes(vector<Attribute> &attrs) const;
+    private:
+        Iterator *iter;
+        vector<Attribute> attrs;
+        Condition cond;
 };
 
 
